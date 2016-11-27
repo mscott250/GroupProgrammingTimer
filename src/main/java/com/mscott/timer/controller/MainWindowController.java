@@ -42,7 +42,7 @@ public class MainWindowController implements Initializable, TurnOverListener {
     public void startActionHandler(ActionEvent event) {
 
         long timerDelay = getTimerDelay();
-        if (timerDelay > 0) {
+        if (timerDelay > 0 && !developerNames.isEmpty()) {
             turnScheduler.startTimer(timerDelay);
         }
     }
