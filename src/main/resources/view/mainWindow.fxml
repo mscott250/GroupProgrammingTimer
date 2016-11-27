@@ -18,6 +18,8 @@
       <RowConstraints />
       <RowConstraints />
       <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
    </rowConstraints>
    <children>
       <Label text="New Person" GridPane.columnIndex="1" GridPane.rowIndex="1" />
