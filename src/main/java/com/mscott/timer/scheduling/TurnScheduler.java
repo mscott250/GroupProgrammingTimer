@@ -17,6 +17,7 @@ public class TurnScheduler {
     }
 
     public void startTimer(long delayInMs) {
+        timerRunning.set(true);
         turnTimer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -30,5 +31,7 @@ public class TurnScheduler {
     public void stopTimer() {
         timerRunning.set(false);
         turnTimer.cancel();
+        // TODO: there must be a better solution than using this
+        turnTimer.purge();
     }
 }

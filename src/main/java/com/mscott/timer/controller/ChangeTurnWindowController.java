@@ -1,6 +1,7 @@
 package com.mscott.timer.controller;
 
 import com.mscott.timer.group.GroupList;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
@@ -15,12 +16,12 @@ public class ChangeTurnWindowController implements Initializable {
 
     private TurnChangedListener turnChangedListener;
 
-    public ChangeTurnWindowController(GroupList groupList,TurnChangedListener turnChangedListener) {
+    public ChangeTurnWindowController(GroupList groupList, TurnChangedListener turnChangedListener) {
         this.groupList = groupList;
         this.turnChangedListener = turnChangedListener;
     }
 
-    public void doneActionHandler() {
+    public void doneActionHandler(ActionEvent event) {
         turnChangedListener.turnChanged();
     }
 

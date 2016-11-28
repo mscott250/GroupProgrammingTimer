@@ -20,12 +20,22 @@ public class GroupList {
         }
     }
 
+    public void clear() {
+        groupNames.clear();
+    }
+
     public boolean isEmpty() {
         return groupNames.isEmpty();
     }
 
     public String getNextPerson() {
-        currentPersonIndex = RandomUtils.nextInt(0, groupNames.size());
+
+        int newPersonIndex;
+        do {
+            newPersonIndex = RandomUtils.nextInt(0, groupNames.size());
+        } while (newPersonIndex != currentPersonIndex);
+        currentPersonIndex = newPersonIndex;
+
         return groupNames.get(currentPersonIndex);
     }
 }
