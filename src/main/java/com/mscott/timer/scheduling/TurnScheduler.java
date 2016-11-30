@@ -1,5 +1,6 @@
 package com.mscott.timer.scheduling;
 
+import javax.annotation.PreDestroy;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -12,7 +13,7 @@ public class TurnScheduler {
 
     private TurnOverListener turnOverListener;
 
-    public TurnScheduler(TurnOverListener turnOverListener) {
+    public void setTurnOverListener(TurnOverListener turnOverListener) {
         this.turnOverListener = turnOverListener;
     }
 
@@ -28,6 +29,7 @@ public class TurnScheduler {
         }, delayInMs);
     }
 
+    @PreDestroy
     public void stopTimer() {
         timerRunning.set(false);
         turnTimer.cancel();

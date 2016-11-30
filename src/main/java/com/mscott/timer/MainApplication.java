@@ -1,24 +1,28 @@
 package com.mscott.timer;
 
+import com.mscott.timer.config.BaseConfig;
 import com.mscott.timer.controller.MainWindowController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 
 public class MainApplication extends Application {
 
-    private FXMLLoader fxmlLoader;
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+    private AbstractApplicationContext context;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        fxmlLoader = new FXMLLoader(getClass().getResource("/view/mainWindow.fxml"));
+        context = new AnnotationConfigApplicationContext(BaseConfig.class);
+
+        MainWindowController mainWindowController = context.getBean(MainWindowController.class);
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/mainWindow.fxml"));
+        fxmlLoader.setController(mainWindowController);
         Parent root = fxmlLoader.load();
 
         primaryStage.setTitle("Timer");
@@ -28,8 +32,10 @@ public class MainApplication extends Application {
 
     @Override
     public void stop() throws Exception {
-        // TODO: think this could be cleaner
-        // stop the scheduler to ensure any threads are cancelled so we can exit cleanly
-        ((MainWindowController) fxmlLoader.getController()).stopScheduler();
+        context.close();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
