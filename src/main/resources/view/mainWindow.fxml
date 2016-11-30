@@ -13,8 +13,10 @@
       <ColumnConstraints />
       <ColumnConstraints />
       <ColumnConstraints />
+      <ColumnConstraints />
    </columnConstraints>
    <rowConstraints>
+      <RowConstraints />
       <RowConstraints />
       <RowConstraints />
       <RowConstraints />
@@ -24,11 +26,11 @@
    <children>
       <Label text="New Person" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <TextField fx:id="nameInput" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <Button fx:id="addPersonButton" mnemonicParsing="false" onAction="#addPersonActionHandler" text="Add Person" GridPane.columnIndex="2" GridPane.rowIndex="2" />
 
       <Label text="Current Group" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <ListView fx:id="nameList" prefHeight="200.0" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-
-      <Button fx:id="addPersonButton" mnemonicParsing="false" onAction="#addPersonActionHandler" text="Add Person" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+      <Button fx:id="removePersonButton" mnemonicParsing="false" onAction="#removePersonActionHandler" text="Remove Person" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.valignment="TOP" />
 
       <Label text="Minutes" GridPane.columnIndex="3" GridPane.rowIndex="1" />
       <TextField fx:id="minutesInput" GridPane.columnIndex="3" GridPane.rowIndex="2" />

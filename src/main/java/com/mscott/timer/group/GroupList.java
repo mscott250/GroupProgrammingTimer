@@ -38,4 +38,8 @@ public class GroupList {
 
         return groupNames.get(currentPersonIndex);
     }
+
+    public void removePerson(String name) {
+        groupNames.remove(name);
+    }
 }

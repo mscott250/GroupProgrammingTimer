@@ -36,6 +36,7 @@ public class MainWindowController implements Initializable, TurnOverListener, Tu
     public TextField nameInput;
     public ListView<String> nameList;
     public Button addPersonButton;
+    public Button removePersonButton;
 
     public TextField minutesInput;
 
@@ -49,6 +50,14 @@ public class MainWindowController implements Initializable, TurnOverListener, Tu
             groupList.addPerson(newName);
             nameInput.clear();
             nameInput.requestFocus();
+        }
+    }
+
+    public void removePersonActionHandler(ActionEvent event) {
+
+        String selectedName = nameList.getFocusModel().getFocusedItem();
+        if (StringUtils.isNotEmpty(selectedName)) {
+            groupList.removePerson(selectedName);
         }
     }
 
@@ -104,6 +113,7 @@ public class MainWindowController implements Initializable, TurnOverListener, Tu
         nameInput.setDisable(false);
         minutesInput.setDisable(false);
         addPersonButton.setDisable(false);
+        removePersonButton.setDisable(false);
         startButton.setDisable(false);
         stopButton.setDisable(true);
     }
@@ -113,6 +123,7 @@ public class MainWindowController implements Initializable, TurnOverListener, Tu
         nameInput.setDisable(true);
         minutesInput.setDisable(true);
         addPersonButton.setDisable(true);
+        removePersonButton.setDisable(true);
         startButton.setDisable(true);
         stopButton.setDisable(false);
     }
