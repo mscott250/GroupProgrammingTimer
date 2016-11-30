@@ -11,7 +11,7 @@
          <font>
             <Font size="72.0" />
          </font></Label>
-        <Button mnemonicParsing="false" text="Done" onAction="#doneActionHandler">
+        <Button mnemonicParsing="false" text="Ready" onAction="#readyActionHandler">
          <font>
             <Font size="36.0" />
          </font></Button>

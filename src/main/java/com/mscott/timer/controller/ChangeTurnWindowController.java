@@ -21,7 +21,7 @@ public class ChangeTurnWindowController implements Initializable {
         this.turnChangedListener = turnChangedListener;
     }
 
-    public void doneActionHandler(ActionEvent event) {
+    public void readyActionHandler(ActionEvent event) {
         turnChangedListener.turnChanged();
     }
 
