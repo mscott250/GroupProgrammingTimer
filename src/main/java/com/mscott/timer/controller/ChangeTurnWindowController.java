@@ -10,18 +10,18 @@ public class ChangeTurnWindowController {
 
     private GroupList groupList;
 
-    private TurnChangedListener turnChangedListener;
+    private ReadyForTurnListener readyForTurnListener;
 
     public ChangeTurnWindowController(GroupList groupList) {
         this.groupList = groupList;
     }
 
-    public void setTurnChangedListener(TurnChangedListener turnChangedListener) {
-        this.turnChangedListener = turnChangedListener;
+    public void setReadyForTurnListener(ReadyForTurnListener readyForTurnListener) {
+        this.readyForTurnListener = readyForTurnListener;
     }
 
     public void readyActionHandler(ActionEvent event) {
-        turnChangedListener.turnChanged();
+        readyForTurnListener.readyForTurn();
     }
 
     public void displayNextPerson() {

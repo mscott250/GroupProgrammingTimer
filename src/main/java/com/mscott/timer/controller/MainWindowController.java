@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainWindowController implements Initializable, TurnOverListener, TurnChangedListener {
+public class MainWindowController implements Initializable {
 
     private static int MILLISECONDS_IN_MINUTE = 6000;
 
@@ -30,11 +30,7 @@ public class MainWindowController implements Initializable, TurnOverListener, Tu
 
     private TurnScheduler turnScheduler;
 
-    private ChangeTurnWindowController changeTurnWindowController;
-
     private TextFormatter<Integer> minutesInputFormatter = new TextFormatter<>(new IntegerStringConverter());
-
-    private Stage changeTurnStage;
 
     public TextField nameInput;
     public ListView<String> nameList;
@@ -46,10 +42,9 @@ public class MainWindowController implements Initializable, TurnOverListener, Tu
     public Button startButton;
     public Button stopButton;
 
-    public MainWindowController(GroupList groupList, TurnScheduler turnScheduler, ChangeTurnWindowController changeTurnWindowController) {
+    public MainWindowController(GroupList groupList, TurnScheduler turnScheduler) {
         this.groupList = groupList;
         this.turnScheduler = turnScheduler;
-        this.changeTurnWindowController = changeTurnWindowController;
     }
 
     public void addPersonActionHandler(ActionEvent event) {
@@ -75,6 +70,8 @@ public class MainWindowController implements Initializable, TurnOverListener, Tu
         long timerDelay = getTimerDelay();
         if (timerDelay > 0 && !groupList.isEmpty()) {
             disableConfigurationComponents();
+            turnScheduler.setDelayInMs(timerDelay);
+            turnScheduler.
             switchDeveloper();
         }
     }
@@ -94,29 +91,11 @@ public class MainWindowController implements Initializable, TurnOverListener, Tu
         enableConfigurationComponents();
     }
 
-    @PostConstruct
-    public void setup() throws IOException {
-        turnScheduler.setTurnOverListener(this);
-        changeTurnWindowController.setTurnChangedListener(this);
-        changeTurnStage = createChangeTurnWindow();
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         nameList.setItems(groupList.getGroupNames());
         minutesInput.setTextFormatter(minutesInputFormatter);
         stopButton.setDisable(true);
-    }
-
-    @Override
-    public void turnOver() {
-        switchDeveloper();
-    }
-
-    @Override
-    public void turnChanged() {
-        changeTurnStage.close();
-        turnScheduler.startTimer(getTimerDelay());
     }
 
     private void enableConfigurationComponents() {
@@ -146,25 +125,5 @@ public class MainWindowController implements Initializable, TurnOverListener, Tu
         } else {
             return minutes * MILLISECONDS_IN_MINUTE;
         }
-    }
-
-    private Stage createChangeTurnWindow() throws IOException {
-        // TODO: think this could be cleaner
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/changeTurnWindow.fxml"));
-        fxmlLoader.setController(changeTurnWindowController);
-        Parent root = fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.setFullScreen(true);
-        stage.setScene(new Scene(root));
-
-        return stage;
-    }
-
-    private void switchDeveloper() {
-        // need to ensure we only update the UI on the platform thread
-        Platform.runLater(() -> {
-            changeTurnWindowController.displayNextPerson();
-            changeTurnStage.show();
-        });
     }
 }

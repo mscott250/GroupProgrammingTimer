@@ -13,20 +13,31 @@ public class TurnScheduler {
 
     private TurnOverListener turnOverListener;
 
+
+
+    private long delayInMs;
+
     public void setTurnOverListener(TurnOverListener turnOverListener) {
         this.turnOverListener = turnOverListener;
     }
 
-    public void startTimer(long delayInMs) {
-        timerRunning.set(true);
-        turnTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (timerRunning.get()) {
+    public void setDelayInMs(long delayInMs) {
+        this.delayInMs = delayInMs;
+    }
+
+    public void startTimer() {
+
+        if (!timerRunning.get()) {
+
+            timerRunning.set(true);
+
+            turnTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
                     turnOverListener.turnOver();
                 }
-            }
-        }, delayInMs);
+            }, delayInMs);
+        }
     }
 
     @PreDestroy
