@@ -1,5 +1,6 @@
 package com.mscott.timer.scheduling;
 
+import javax.annotation.PreDestroy;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,6 +18,7 @@ public class TurnScheduler {
         }, turnLengthInMs);
     }
 
+    @PreDestroy
     public void stopTurn() {
         timer.cancel();
     }

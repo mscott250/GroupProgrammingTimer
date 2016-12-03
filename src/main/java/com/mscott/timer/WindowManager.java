@@ -18,6 +18,7 @@ public class WindowManager implements TurnEventListener {
     private MainWindowController mainWindowController;
     private ChangeTurnWindowController changeTurnWindowController;
 
+    private Stage mainWindowStage;
     private Stage changeTurnWindowStage;
 
     private long turnLengthInMs = -1;
@@ -36,39 +37,27 @@ public class WindowManager implements TurnEventListener {
         initChangeTurnStage();
     }
 
-    private void initChangeTurnStage() {
-
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/changeTurnWindow.fxml"));
-            fxmlLoader.setController(changeTurnWindowController);
-
-            Parent root = fxmlLoader.load();
-
-            changeTurnWindowStage = new Stage();
-            changeTurnWindowStage.setFullScreen(true);
-            changeTurnWindowStage.setScene(new Scene(root));
-        } catch (IOException e) {
-            // TODO: do this properly
-            System.err.println(e.getMessage());
-        }
-    }
-
     public void showMainWindow(Stage primaryStage) throws IOException {
+
+        mainWindowStage = primaryStage;
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/mainWindow.fxml"));
         fxmlLoader.setController(mainWindowController);
         Parent root = fxmlLoader.load();
 
         primaryStage.setTitle("Timer");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 
     @Override
     public void startTurns(long turnLengthInMs) {
+
         this.turnLengthInMs = turnLengthInMs;
+
+        hideMainWindow();
         // ask the first person to start their turn
-        switchDeveloper();
+        switchPerson();
     }
 
     @Override
@@ -79,11 +68,29 @@ public class WindowManager implements TurnEventListener {
     @Override
     public void startNextTurn() {
         changeTurnWindowStage.close();
-        turnScheduler.startTurn(this::switchDeveloper, turnLengthInMs);
+        turnScheduler.startTurn(this::switchPerson, turnLengthInMs);
     }
 
-    private void switchDeveloper() {
-        // need to ensure we only update the UI on the platform thread
+    private void initChangeTurnStage() {
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/changeTurnWindow.fxml"));
+            fxmlLoader.setController(changeTurnWindowController);
+            Parent root = fxmlLoader.load();
+
+            changeTurnWindowStage = new Stage();
+            changeTurnWindowStage.setFullScreen(true);
+            changeTurnWindowStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void hideMainWindow() {
+        Platform.runLater(() -> mainWindowStage.setIconified(true));
+    }
+
+    private void switchPerson() {
         Platform.runLater(() -> {
             changeTurnWindowController.displayNextPerson();
             changeTurnWindowStage.show();

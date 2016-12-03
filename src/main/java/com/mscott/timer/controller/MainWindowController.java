@@ -18,12 +18,6 @@ public class MainWindowController implements Initializable {
 
     private static int MILLISECONDS_IN_MINUTE = 6000;
 
-    private GroupList groupList;
-
-    private TurnEventListener turnEventListener;
-
-    private TextFormatter<Integer> minutesInputFormatter = new TextFormatter<>(new IntegerStringConverter());
-
     public TextField nameInput;
     public ListView<String> nameList;
     public Button addPersonButton;
@@ -33,6 +27,13 @@ public class MainWindowController implements Initializable {
 
     public Button startButton;
     public Button stopButton;
+    public Button resetButton;
+
+    private TextFormatter<Integer> minutesInputFormatter = new TextFormatter<>(new IntegerStringConverter());
+
+    private GroupList groupList;
+
+    private TurnEventListener turnEventListener;
 
     public MainWindowController(GroupList groupList) {
         this.groupList = groupList;
@@ -62,15 +63,19 @@ public class MainWindowController implements Initializable {
 
     public void startActionHandler(ActionEvent event) {
 
-        long timerDelay = getTimerDelay();
-        if (timerDelay > 0 && !groupList.isEmpty()) {
+        long turnLengthInMs = getTurnLengthInMs();
+        if (turnLengthInMs > 0 && !groupList.isEmpty()) {
+
             disableConfigurationComponents();
-            turnEventListener.startTurns(timerDelay);
+
+            turnEventListener.startTurns(turnLengthInMs);
         }
     }
 
     public void stopActionHandler(ActionEvent event) {
+
         turnEventListener.stopTurns();
+
         enableConfigurationComponents();
     }
 
@@ -78,10 +83,7 @@ public class MainWindowController implements Initializable {
 
         turnEventListener.stopTurns();
 
-        groupList.clear();
-
-        minutesInput.clear();
-
+        clearConfigurationComponents();
         enableConfigurationComponents();
     }
 
@@ -100,6 +102,7 @@ public class MainWindowController implements Initializable {
         removePersonButton.setDisable(false);
         startButton.setDisable(false);
         stopButton.setDisable(true);
+        resetButton.setDisable(false);
     }
 
     private void disableConfigurationComponents() {
@@ -110,9 +113,16 @@ public class MainWindowController implements Initializable {
         removePersonButton.setDisable(true);
         startButton.setDisable(true);
         stopButton.setDisable(false);
+        resetButton.setDisable(true);
     }
 
-    private long getTimerDelay() {
+    private void clearConfigurationComponents() {
+
+        groupList.clear();
+        minutesInput.clear();
+    }
+
+    private long getTurnLengthInMs() {
         Integer minutes = minutesInputFormatter.getValue();
         if (minutes == null || minutes < 1) {
             return -1;

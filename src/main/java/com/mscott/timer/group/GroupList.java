@@ -19,6 +19,10 @@ public class GroupList {
         }
     }
 
+    public void removePerson(String name) {
+        groupNames.remove(name);
+    }
+
     public void clear() {
         groupNames.clear();
     }
@@ -37,9 +41,5 @@ public class GroupList {
         }
 
         return groupNames.get(currentPersonIndex);
-    }
-
-    public void removePerson(String name) {
-        groupNames.remove(name);
     }
 }
