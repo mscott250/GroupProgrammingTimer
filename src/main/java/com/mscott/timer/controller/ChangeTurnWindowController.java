@@ -1,32 +1,31 @@
 package com.mscott.timer.controller;
 
 import com.mscott.timer.group.GroupList;
+import com.mscott.timer.TurnEventListener;
 import javafx.event.ActionEvent;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class ChangeTurnWindowController implements Initializable {
+public class ChangeTurnWindowController {
 
     public Label nextPersonLabel;
 
     private GroupList groupList;
 
-    private TurnChangedListener turnChangedListener;
+    private TurnEventListener turnEventListener;
 
-    public ChangeTurnWindowController(GroupList groupList, TurnChangedListener turnChangedListener) {
+    public ChangeTurnWindowController(GroupList groupList) {
         this.groupList = groupList;
-        this.turnChangedListener = turnChangedListener;
+    }
+
+    public void setTurnEventListener(TurnEventListener turnEventListener) {
+        this.turnEventListener = turnEventListener;
     }
 
     public void readyActionHandler(ActionEvent event) {
-        turnChangedListener.turnChanged();
+        turnEventListener.startNextTurn();
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void displayNextPerson() {
         nextPersonLabel.setText(groupList.getNextPerson() + " please sit at the keyboard");
     }
 }

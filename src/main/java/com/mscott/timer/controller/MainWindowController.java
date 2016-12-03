@@ -1,37 +1,22 @@
 package com.mscott.timer.controller;
 
 import com.mscott.timer.group.GroupList;
-import com.mscott.timer.scheduling.TurnOverListener;
-import com.mscott.timer.scheduling.TurnScheduler;
-import javafx.application.Platform;
+import com.mscott.timer.TurnEventListener;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainWindowController implements Initializable, TurnOverListener, TurnChangedListener {
+public class MainWindowController implements Initializable {
 
     private static int MILLISECONDS_IN_MINUTE = 6000;
-
-    private GroupList groupList = new GroupList();
-
-    private TurnScheduler turnScheduler = new TurnScheduler(this);
-
-    private TextFormatter<Integer> minutesInputFormatter = new TextFormatter<>(new IntegerStringConverter());
-
-    private Stage changeTurnStage;
 
     public TextField nameInput;
     public ListView<String> nameList;
@@ -42,6 +27,21 @@ public class MainWindowController implements Initializable, TurnOverListener, Tu
 
     public Button startButton;
     public Button stopButton;
+    public Button resetButton;
+
+    private TextFormatter<Integer> minutesInputFormatter = new TextFormatter<>(new IntegerStringConverter());
+
+    private GroupList groupList;
+
+    private TurnEventListener turnEventListener;
+
+    public MainWindowController(GroupList groupList) {
+        this.groupList = groupList;
+    }
+
+    public void setTurnEventListener(TurnEventListener turnEventListener) {
+        this.turnEventListener = turnEventListener;
+    }
 
     public void addPersonActionHandler(ActionEvent event) {
 
@@ -63,30 +63,28 @@ public class MainWindowController implements Initializable, TurnOverListener, Tu
 
     public void startActionHandler(ActionEvent event) {
 
-        long timerDelay = getTimerDelay();
-        if (timerDelay > 0 && !groupList.isEmpty()) {
+        long turnLengthInMs = getTurnLengthInMs();
+        if (turnLengthInMs > 0 && !groupList.isEmpty()) {
+
             disableConfigurationComponents();
-            switchDeveloper();
+
+            turnEventListener.startTurns(turnLengthInMs);
         }
     }
 
     public void stopActionHandler(ActionEvent event) {
-        turnScheduler.stopTimer();
+
+        turnEventListener.stopTurns();
+
         enableConfigurationComponents();
     }
 
     public void resetActionHandler(ActionEvent event) {
 
-        turnScheduler.stopTimer();
-        groupList.clear();
+        turnEventListener.stopTurns();
 
-        minutesInput.clear();
-
+        clearConfigurationComponents();
         enableConfigurationComponents();
-    }
-
-    public void stopScheduler() {
-        turnScheduler.stopTimer();
     }
 
     @Override
@@ -94,18 +92,6 @@ public class MainWindowController implements Initializable, TurnOverListener, Tu
         nameList.setItems(groupList.getGroupNames());
         minutesInput.setTextFormatter(minutesInputFormatter);
         stopButton.setDisable(true);
-    }
-
-    @Override
-    public void turnOver() {
-        switchDeveloper();
-    }
-
-    @Override
-    public void turnChanged() {
-        changeTurnStage.close();
-        changeTurnStage = null;
-        turnScheduler.startTimer(getTimerDelay());
     }
 
     private void enableConfigurationComponents() {
@@ -116,6 +102,7 @@ public class MainWindowController implements Initializable, TurnOverListener, Tu
         removePersonButton.setDisable(false);
         startButton.setDisable(false);
         stopButton.setDisable(true);
+        resetButton.setDisable(false);
     }
 
     private void disableConfigurationComponents() {
@@ -126,39 +113,21 @@ public class MainWindowController implements Initializable, TurnOverListener, Tu
         removePersonButton.setDisable(true);
         startButton.setDisable(true);
         stopButton.setDisable(false);
+        resetButton.setDisable(true);
     }
 
-    private long getTimerDelay() {
+    private void clearConfigurationComponents() {
+
+        groupList.clear();
+        minutesInput.clear();
+    }
+
+    private long getTurnLengthInMs() {
         Integer minutes = minutesInputFormatter.getValue();
         if (minutes == null || minutes < 1) {
             return -1;
         } else {
             return minutes * MILLISECONDS_IN_MINUTE;
         }
-    }
-
-    private Stage createChangeTurnWindow() throws IOException {
-        // TODO: think this could be cleaner
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/changeTurnWindow.fxml"));
-        fxmlLoader.setController(new ChangeTurnWindowController(groupList, this));
-        Parent root = fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.setFullScreen(true);
-        stage.setScene(new Scene(root));
-
-        return stage;
-    }
-
-    private void switchDeveloper() {
-        // need to ensure we only update the UI on the platform thread
-        Platform.runLater(() -> {
-            try {
-                changeTurnStage = createChangeTurnWindow();
-                changeTurnStage.show();
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
-        });
     }
 }
