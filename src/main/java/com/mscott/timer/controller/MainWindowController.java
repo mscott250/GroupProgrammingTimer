@@ -1,24 +1,16 @@
 package com.mscott.timer.controller;
 
 import com.mscott.timer.group.GroupList;
-import com.mscott.timer.scheduling.TurnOverListener;
-import com.mscott.timer.scheduling.TurnScheduler;
-import javafx.application.Platform;
+import com.mscott.timer.TurnEventListener;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -28,7 +20,7 @@ public class MainWindowController implements Initializable {
 
     private GroupList groupList;
 
-    private TurnScheduler turnScheduler;
+    private TurnEventListener turnEventListener;
 
     private TextFormatter<Integer> minutesInputFormatter = new TextFormatter<>(new IntegerStringConverter());
 
@@ -42,9 +34,12 @@ public class MainWindowController implements Initializable {
     public Button startButton;
     public Button stopButton;
 
-    public MainWindowController(GroupList groupList, TurnScheduler turnScheduler) {
+    public MainWindowController(GroupList groupList) {
         this.groupList = groupList;
-        this.turnScheduler = turnScheduler;
+    }
+
+    public void setTurnEventListener(TurnEventListener turnEventListener) {
+        this.turnEventListener = turnEventListener;
     }
 
     public void addPersonActionHandler(ActionEvent event) {
@@ -70,20 +65,19 @@ public class MainWindowController implements Initializable {
         long timerDelay = getTimerDelay();
         if (timerDelay > 0 && !groupList.isEmpty()) {
             disableConfigurationComponents();
-            turnScheduler.setDelayInMs(timerDelay);
-            turnScheduler.
-            switchDeveloper();
+            turnEventListener.startTurns(timerDelay);
         }
     }
 
     public void stopActionHandler(ActionEvent event) {
-        turnScheduler.stopTimer();
+        turnEventListener.stopTurns();
         enableConfigurationComponents();
     }
 
     public void resetActionHandler(ActionEvent event) {
 
-        turnScheduler.stopTimer();
+        turnEventListener.stopTurns();
+
         groupList.clear();
 
         minutesInput.clear();

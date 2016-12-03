@@ -1,6 +1,7 @@
 package com.mscott.timer.controller;
 
 import com.mscott.timer.group.GroupList;
+import com.mscott.timer.TurnEventListener;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 
@@ -10,18 +11,18 @@ public class ChangeTurnWindowController {
 
     private GroupList groupList;
 
-    private ReadyForTurnListener readyForTurnListener;
+    private TurnEventListener turnEventListener;
 
     public ChangeTurnWindowController(GroupList groupList) {
         this.groupList = groupList;
     }
 
-    public void setReadyForTurnListener(ReadyForTurnListener readyForTurnListener) {
-        this.readyForTurnListener = readyForTurnListener;
+    public void setTurnEventListener(TurnEventListener turnEventListener) {
+        this.turnEventListener = turnEventListener;
     }
 
     public void readyActionHandler(ActionEvent event) {
-        readyForTurnListener.readyForTurn();
+        turnEventListener.startNextTurn();
     }
 
     public void displayNextPerson() {

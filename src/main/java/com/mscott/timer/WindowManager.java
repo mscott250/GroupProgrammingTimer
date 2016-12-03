@@ -2,8 +2,6 @@ package com.mscott.timer;
 
 import com.mscott.timer.controller.ChangeTurnWindowController;
 import com.mscott.timer.controller.MainWindowController;
-import com.mscott.timer.controller.ReadyForTurnListener;
-import com.mscott.timer.scheduling.TurnOverListener;
 import com.mscott.timer.scheduling.TurnScheduler;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class WindowManager implements ReadyForTurnListener, TurnOverListener {
+public class WindowManager implements TurnEventListener {
 
     private TurnScheduler turnScheduler;
 
@@ -22,6 +20,8 @@ public class WindowManager implements ReadyForTurnListener, TurnOverListener {
 
     private Stage changeTurnWindowStage;
 
+    private long turnLengthInMs = -1;
+
     public WindowManager(TurnScheduler turnScheduler,
                          MainWindowController mainWindowController,
                          ChangeTurnWindowController changeTurnWindowController) {
@@ -29,6 +29,9 @@ public class WindowManager implements ReadyForTurnListener, TurnOverListener {
         this.turnScheduler = turnScheduler;
         this.mainWindowController = mainWindowController;
         this.changeTurnWindowController = changeTurnWindowController;
+
+        mainWindowController.setTurnEventListener(this);
+        changeTurnWindowController.setTurnEventListener(this);
 
         initChangeTurnStage();
     }
@@ -61,19 +64,22 @@ public class WindowManager implements ReadyForTurnListener, TurnOverListener {
         primaryStage.show();
     }
 
-    public void showChangeTurnWindow() {
-        changeTurnWindowStage.show();
-    }
-
     @Override
-    public void turnOver() {
+    public void startTurns(long turnLengthInMs) {
+        this.turnLengthInMs = turnLengthInMs;
+        // ask the first person to start their turn
         switchDeveloper();
     }
 
     @Override
-    public void readyForTurn() {
+    public void stopTurns() {
+        turnScheduler.stopTurn();
+    }
+
+    @Override
+    public void startNextTurn() {
         changeTurnWindowStage.close();
-        turnScheduler.startTimer();
+        turnScheduler.startTurn(this::switchDeveloper, turnLengthInMs);
     }
 
     private void switchDeveloper() {

@@ -1,5 +1,6 @@
 package com.mscott.timer.config;
 
+import com.mscott.timer.WindowManager;
 import com.mscott.timer.controller.ChangeTurnWindowController;
 import com.mscott.timer.controller.MainWindowController;
 import com.mscott.timer.group.GroupList;
@@ -8,11 +9,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class BaseConfig {
+public class BeanConfiguration {
+
+    @Bean
+    public WindowManager windowManager() {
+        return new WindowManager(turnScheduler(), mainWindowController(), changeTurnWindowController());
+    }
 
     @Bean
     public MainWindowController mainWindowController() {
-        return new MainWindowController(groupList(), turnScheduler(), changeTurnWindowController());
+        return new MainWindowController(groupList());
     }
 
     @Bean
