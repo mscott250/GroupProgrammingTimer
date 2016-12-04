@@ -33,6 +33,10 @@ public class GroupList {
 
     public String getNextPerson() {
 
+        if (groupNames.isEmpty()) {
+            return null;
+        }
+
         if (currentPersonIndex >= (groupNames.size() - 1)) {
             // hit the end of the names, wrap to the beginning
             currentPersonIndex = 0;
