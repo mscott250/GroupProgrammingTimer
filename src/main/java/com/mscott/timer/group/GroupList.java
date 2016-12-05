@@ -2,7 +2,9 @@ package com.mscott.timer.group;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GroupList {
 
     private ObservableList<String> groupNames = FXCollections.observableArrayList();

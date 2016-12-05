@@ -1,6 +1,5 @@
 package com.mscott.timer;
 
-import com.mscott.timer.config.BeanConfiguration;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -13,7 +12,7 @@ public class MainApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        context = new AnnotationConfigApplicationContext(BeanConfiguration.class);
+        context = new AnnotationConfigApplicationContext("com.mscott.timer");
 
         WindowManager windowManager = context.getBean(WindowManager.class);
 

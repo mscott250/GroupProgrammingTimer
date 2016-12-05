@@ -4,7 +4,10 @@ import com.mscott.timer.group.GroupList;
 import com.mscott.timer.TurnEventListener;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChangeTurnWindowController {
 
     public Label nextPersonLabel;
@@ -13,6 +16,7 @@ public class ChangeTurnWindowController {
 
     private TurnEventListener turnEventListener;
 
+    @Autowired
     public ChangeTurnWindowController(GroupList groupList) {
         this.groupList = groupList;
     }

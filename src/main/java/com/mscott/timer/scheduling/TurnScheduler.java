@@ -1,9 +1,12 @@
 package com.mscott.timer.scheduling;
 
+import org.springframework.stereotype.Component;
+
 import javax.annotation.PreDestroy;
 import java.util.Timer;
 import java.util.TimerTask;
 
+@Component
 public class TurnScheduler {
 
     private Timer timer = new Timer();
