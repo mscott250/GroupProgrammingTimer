@@ -13,6 +13,10 @@ public class TurnScheduler {
 
     public void startTurn(Runnable turnEndedTask, long turnLengthInMs) {
 
+        if (timer == null) {
+            timer = new Timer();
+        }
+
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -23,6 +27,11 @@ public class TurnScheduler {
 
     @PreDestroy
     public void stopTurn() {
-        timer.cancel();
+
+        if (timer != null) {
+            timer.cancel();
+            // cancel stops any new tasks being scheduled, so signal to create a new instance for any further tasks
+            timer = null;
+        }
     }
 }
