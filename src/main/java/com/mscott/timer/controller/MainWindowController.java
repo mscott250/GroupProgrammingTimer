@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 @Component
 public class MainWindowController implements Initializable {
 
-    private static int MILLISECONDS_IN_MINUTE = 6000;
+    private static int MILLISECONDS_IN_MINUTE = 60000;
 
     public TextField nameInput;
     public ListView<String> nameList;
