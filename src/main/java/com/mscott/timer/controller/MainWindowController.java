@@ -2,6 +2,7 @@ package com.mscott.timer.controller;
 
 import com.mscott.timer.group.GroupList;
 import com.mscott.timer.TurnEventListener;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -89,6 +90,10 @@ public class MainWindowController implements Initializable {
 
         clearConfigurationComponents();
         enableConfigurationComponents();
+    }
+
+    public void closeActionHandler(ActionEvent event) {
+        Platform.exit();
     }
 
     @Override
