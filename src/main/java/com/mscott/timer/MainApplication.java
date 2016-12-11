@@ -14,6 +14,9 @@ public class MainApplication extends Application {
 
         context = new AnnotationConfigApplicationContext("com.mscott.timer");
 
+        HostServicesWrapper hostServicesWrapper = context.getBean(HostServicesWrapper.class);
+        hostServicesWrapper.setHostServices(getHostServices());
+
         WindowManager windowManager = context.getBean(WindowManager.class);
 
         windowManager.showMainWindow(primaryStage);

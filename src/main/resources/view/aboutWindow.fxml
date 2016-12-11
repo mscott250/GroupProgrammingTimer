@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+ <children>
+    <Label alignment="CENTER" contentDisplay="TOP" maxWidth="1.7976931348623157E308" text="Group Programming Timer" VBox.vgrow="ALWAYS">
+       <font>
+          <Font size="36.0" />
+       </font>
+    </Label>
+    <GridPane hgap="10.0" vgap="10.0">
+      <columnConstraints>
+        <ColumnConstraints hgrow="NEVER" />
+        <ColumnConstraints hgrow="SOMETIMES" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints vgrow="SOMETIMES" />
+        <RowConstraints vgrow="SOMETIMES" />
+          <RowConstraints vgrow="SOMETIMES" />
+      </rowConstraints>
+       <children>
+          <Label text="Author:" />
+          <Label text="Michael Scott" GridPane.columnIndex="1" />
+          <Label text="Homepage:" GridPane.rowIndex="1" />
+            <Hyperlink fx:id="homePageHyperlink" onAction="#clickHomePageLinkActionHandler" style="-fx-border-color: transparent; -fx-padding: 0;" text="https://github.com/mscott250/GroupProgrammingTimer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+          <Label text="Version:" GridPane.rowIndex="2" />
+          <Label fx:id="versionValueLabel" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+       </children>
+    </GridPane>
+      <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+         <children>
+            <Button mnemonicParsing="false" onAction="#closeActionHandler" text="Close" />
+         </children>
+      </HBox>
+ </children>
+ <padding>
+    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+ </padding>
+</VBox>

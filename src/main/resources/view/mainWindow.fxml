@@ -24,6 +24,11 @@
                   <MenuItem mnemonicParsing="false" onAction="#closeActionHandler" text="Close" />
                </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#aboutActionHandler" text="About" />
+              </items>
+            </Menu>
          </menus>
       </MenuBar>
       <VBox>
