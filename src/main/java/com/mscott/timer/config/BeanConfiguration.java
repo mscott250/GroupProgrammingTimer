@@ -1,18 +1,17 @@
 package com.mscott.timer.config;
 
 import com.mscott.timer.controller.AboutWindowController;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import com.mscott.timer.controller.ChangeTurnWindowController;
+import com.mscott.timer.controller.MainWindowController;
+import com.mscott.timer.stage.AboutWindowStage;
+import com.mscott.timer.stage.ChangeTurnWindowStage;
+import com.mscott.timer.stage.MainWindowStage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-
-import java.io.IOException;
 
 @Configuration
 @PropertySource("classpath:/application.properties")
@@ -25,18 +24,20 @@ public class BeanConfiguration {
     }
 
     @Autowired
+    @Bean(name = "mainWindowStage")
+    public MainWindowStage mainWindowStage(MainWindowController mainWindowController) {
+        return new MainWindowStage("/view/mainWindow.fxml", mainWindowController);
+    }
+
+    @Autowired
+    @Bean(name = "changeTurnWindowStage")
+    public ChangeTurnWindowStage changeTurnWindowStage(ChangeTurnWindowController changeTurnWindowController) {
+        return new ChangeTurnWindowStage("/view/changeTurnWindow.fxml", changeTurnWindowController);
+    }
+
+    @Autowired
     @Bean(name = "aboutWindowStage")
-    public Stage aboutWindowStage(AboutWindowController aboutWindowController) throws IOException {
-
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/aboutWindow.fxml"));
-        fxmlLoader.setController(aboutWindowController);
-        Parent root = fxmlLoader.load();
-
-        Stage aboutWindowStage = new Stage();
-        aboutWindowStage.setResizable(false);
-        aboutWindowStage.setTitle("Timer - About");
-        aboutWindowStage.setScene(new Scene(root));
-
-        return aboutWindowStage;
+    public AboutWindowStage aboutWindowStage(AboutWindowController aboutWindowController) {
+        return new AboutWindowStage("/view/aboutWindow.fxml", aboutWindowController);
     }
 }

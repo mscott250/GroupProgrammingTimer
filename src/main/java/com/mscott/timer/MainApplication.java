@@ -19,7 +19,7 @@ public class MainApplication extends Application {
 
         WindowManager windowManager = context.getBean(WindowManager.class);
 
-        windowManager.showMainWindow(primaryStage);
+        windowManager.showMainWindow();
     }
 
     @Override
