@@ -5,7 +5,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 
 public class FXMLSceneStage extends Stage {
@@ -22,11 +21,6 @@ public class FXMLSceneStage extends Stage {
 
     public Object getController() {
         return controller;
-    }
-
-    @PostConstruct
-    protected void initialiseUI() {
-
     }
 
     private void loadScene(String uri) {

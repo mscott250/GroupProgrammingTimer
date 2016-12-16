@@ -23,20 +23,20 @@ public class BeanConfiguration {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
+    @Bean
     @Autowired
-    @Bean(name = "mainWindowStage")
     public MainWindowStage mainWindowStage(MainWindowController mainWindowController) {
         return new MainWindowStage("/view/mainWindow.fxml", mainWindowController);
     }
 
+    @Bean
     @Autowired
-    @Bean(name = "changeTurnWindowStage")
     public ChangeTurnWindowStage changeTurnWindowStage(ChangeTurnWindowController changeTurnWindowController) {
         return new ChangeTurnWindowStage("/view/changeTurnWindow.fxml", changeTurnWindowController);
     }
 
+    @Bean
     @Autowired
-    @Bean(name = "aboutWindowStage")
     public AboutWindowStage aboutWindowStage(AboutWindowController aboutWindowController) {
         return new AboutWindowStage("/view/aboutWindow.fxml", aboutWindowController);
     }
