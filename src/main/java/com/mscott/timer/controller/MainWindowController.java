@@ -4,16 +4,22 @@ import com.mscott.timer.group.GroupList;
 import com.mscott.timer.TurnEventListener;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -37,11 +43,14 @@ public class MainWindowController implements Initializable {
 
     private GroupList groupList;
 
+    private Stage aboutWindowStage;
+
     private TurnEventListener turnEventListener;
 
     @Autowired
-    public MainWindowController(GroupList groupList) {
+    public MainWindowController(GroupList groupList, Stage aboutWindowStage) {
         this.groupList = groupList;
+        this.aboutWindowStage = aboutWindowStage;
     }
 
     public void setTurnEventListener(TurnEventListener turnEventListener) {
@@ -94,6 +103,10 @@ public class MainWindowController implements Initializable {
 
     public void closeActionHandler(ActionEvent event) {
         Platform.exit();
+    }
+
+    public void aboutActionHandler(ActionEvent event) {
+        aboutWindowStage.show();
     }
 
     @Override
