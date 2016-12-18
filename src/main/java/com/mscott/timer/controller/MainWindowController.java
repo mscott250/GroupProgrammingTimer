@@ -7,7 +7,6 @@ import com.mscott.timer.settings.TimerConfigurationFile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
@@ -33,6 +32,9 @@ public class MainWindowController implements Initializable {
     private static final FileChooser.ExtensionFilter JSON_EXTENSION_FILTER = new FileChooser.ExtensionFilter(
             "JSON Files",
             "*.json");
+    private static final FileChooser.ExtensionFilter ANY_EXTENSION_FILTER = new FileChooser.ExtensionFilter(
+            "All Files",
+            "*.*");
 
     @FXML
     private TextField nameInput;
@@ -133,7 +135,7 @@ public class MainWindowController implements Initializable {
     private void loadConfigurationActionHandler(ActionEvent event) {
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setSelectedExtensionFilter(JSON_EXTENSION_FILTER);
+        fileChooser.getExtensionFilters().addAll(JSON_EXTENSION_FILTER, ANY_EXTENSION_FILTER);
         fileChooser.setInitialDirectory(SystemUtils.getUserHome());
         fileChooser.setTitle("Load Timer Configuration");
 
@@ -155,7 +157,7 @@ public class MainWindowController implements Initializable {
     private void saveConfigurationActionHandler(ActionEvent event) {
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setSelectedExtensionFilter(JSON_EXTENSION_FILTER);
+        fileChooser.getExtensionFilters().addAll(JSON_EXTENSION_FILTER, ANY_EXTENSION_FILTER);
         fileChooser.setInitialDirectory(SystemUtils.getUserHome());
         fileChooser.setTitle("Save Timer Configuration");
 

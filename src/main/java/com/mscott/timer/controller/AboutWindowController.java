@@ -20,7 +20,6 @@ public class AboutWindowController implements Initializable {
 
     @FXML
     private Label versionValueLabel;
-
     @FXML
     private Hyperlink homePageHyperlink;
 
