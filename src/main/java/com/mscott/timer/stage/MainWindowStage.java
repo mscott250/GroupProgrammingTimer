@@ -16,5 +16,6 @@ public class MainWindowStage extends FXMLSceneStage {
 
     private void initialiseUI() {
         setTitle("Timer");
+        setResizable(false);
     }
 }
