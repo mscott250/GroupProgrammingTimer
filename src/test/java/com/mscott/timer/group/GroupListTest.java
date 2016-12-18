@@ -5,6 +5,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 public class GroupListTest {
 
     private GroupList groupList;
@@ -15,9 +18,9 @@ public class GroupListTest {
     }
 
     @Test
-    public void addPerson() {
+    public void addNewPerson() {
 
-        groupList.addPerson("Fred");
+        groupList.addNewPerson("Fred");
 
         ObservableList<String> groupNames = groupList.getGroupNames();
 
@@ -26,21 +29,34 @@ public class GroupListTest {
     }
 
     @Test
-    public void addPerson_withDuplicateName_addsNoPerson() {
+    public void addNewPerson_withDuplicateName_addsNoPerson() {
 
-        groupList.addPerson("Fred");
-        groupList.addPerson("Fred");
+        groupList.addNewPerson("Fred");
+        groupList.addNewPerson("Fred");
 
         ObservableList<String> groupNames = groupList.getGroupNames();
 
         Assertions.assertThat(groupNames).hasSize(1);
         Assertions.assertThat(groupNames.get(0)).isEqualTo("Fred");
+    }
+
+    @Test
+    public void addAllPersons() {
+
+        groupList.addAllPersons(Arrays.asList("Fred", "Bob", "Tim"));
+
+        ObservableList<String> groupNames = groupList.getGroupNames();
+
+        Assertions.assertThat(groupNames).hasSize(3);
+        Assertions.assertThat(groupNames.get(0)).isEqualTo("Fred");
+        Assertions.assertThat(groupNames.get(1)).isEqualTo("Bob");
+        Assertions.assertThat(groupNames.get(2)).isEqualTo("Tim");
     }
 
     @Test
     public void removePerson() {
 
-        groupList.addPerson("Fred");
+        groupList.addNewPerson("Fred");
 
         groupList.removePerson("Fred");
 
@@ -52,7 +68,7 @@ public class GroupListTest {
     @Test
     public void removePerson_withUnknownName_removesNoPeople() {
 
-        groupList.addPerson("Fred");
+        groupList.addNewPerson("Fred");
 
         groupList.removePerson("Bob");
 
@@ -65,7 +81,7 @@ public class GroupListTest {
     @Test
     public void clear() {
 
-        groupList.addPerson("Fred");
+        groupList.addNewPerson("Fred");
 
         groupList.clear();
 
@@ -85,7 +101,7 @@ public class GroupListTest {
     @Test
     public void isEmpty_withPeople_returnsFalse() {
 
-        groupList.addPerson("Fred");
+        groupList.addNewPerson("Fred");
 
         boolean isEmpty = groupList.isEmpty();
 
@@ -103,8 +119,8 @@ public class GroupListTest {
     @Test
     public void getNextPerson_withPeople_returnsFirstNameOnFirstCall() {
 
-        groupList.addPerson("Fred");
-        groupList.addPerson("Bob");
+        groupList.addNewPerson("Fred");
+        groupList.addNewPerson("Bob");
 
         String nextPersonName = groupList.getNextPerson();
 
@@ -114,8 +130,8 @@ public class GroupListTest {
     @Test
     public void getNextPerson_withPeople_returnsFirstNameOnReachingEndOfNames() {
 
-        groupList.addPerson("Fred");
-        groupList.addPerson("Bob");
+        groupList.addNewPerson("Fred");
+        groupList.addNewPerson("Bob");
 
         groupList.getNextPerson(); // Fred
         groupList.getNextPerson(); // Bob
@@ -127,8 +143,8 @@ public class GroupListTest {
     @Test
     public void getNextPerson_withPeople_returnsNextPersonOnNextCall() {
 
-        groupList.addPerson("Fred");
-        groupList.addPerson("Bob");
+        groupList.addNewPerson("Fred");
+        groupList.addNewPerson("Bob");
 
         groupList.getNextPerson(); // Fred
         String nextPersonName = groupList.getNextPerson();
