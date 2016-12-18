@@ -2,6 +2,7 @@ package com.mscott.timer.controller;
 
 import com.mscott.timer.HostServicesWrapper;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -17,9 +18,11 @@ import java.util.ResourceBundle;
 @Component
 public class AboutWindowController implements Initializable {
 
-    public Label versionValueLabel;
+    @FXML
+    private Label versionValueLabel;
 
-    public Hyperlink homePageHyperlink;
+    @FXML
+    private Hyperlink homePageHyperlink;
 
     private HostServicesWrapper hostServicesWrapper;
 
@@ -33,17 +36,19 @@ public class AboutWindowController implements Initializable {
         this.applicationVersion = applicationVersion;
     }
 
-    public void clickHomePageLinkActionHandler(ActionEvent event) {
-        hostServicesWrapper.showDocument(homePageHyperlink.getText());
-    }
-
-    public void closeActionHandler(ActionEvent event) {
-        // nasty chaining, but it means we don't need the window being passed in to us though
-        ((Stage) ((Button) event.getSource()).getScene().getWindow()).close();
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         versionValueLabel.setText(applicationVersion);
+    }
+
+    @FXML
+    private void clickHomePageLinkActionHandler(ActionEvent event) {
+        hostServicesWrapper.showDocument(homePageHyperlink.getText());
+    }
+
+    @FXML
+    private void closeActionHandler(ActionEvent event) {
+        // nasty chaining, but it means we don't need the window being passed in to us though
+        ((Stage) ((Button) event.getSource()).getScene().getWindow()).close();
     }
 }

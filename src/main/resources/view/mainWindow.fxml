@@ -87,7 +87,7 @@
                   <HBox alignment="TOP_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopActionHandler" text="Stop" />
-                        <Button fx:id="startButton" mnemonicParsing="false" onAction="#startActionHandler" text="Start" />
+                        <Button fx:id="startButton" defaultButton="true" mnemonicParsing="false" onAction="#startActionHandler" text="Start" />
                      </children>
                   </HBox>
                </children>
