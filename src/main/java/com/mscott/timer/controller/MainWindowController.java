@@ -4,6 +4,7 @@ import com.mscott.timer.group.GroupList;
 import com.mscott.timer.TurnEventListener;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -28,16 +29,22 @@ public class MainWindowController implements Initializable {
 
     private static int MILLISECONDS_IN_MINUTE = 60000;
 
-    public TextField nameInput;
-    public ListView<String> nameList;
-    public Button addPersonButton;
-    public Button removePersonButton;
-
-    public TextField minutesInput;
-
-    public Button startButton;
-    public Button stopButton;
-    public Button resetButton;
+    @FXML
+    private TextField nameInput;
+    @FXML
+    private ListView<String> nameList;
+    @FXML
+    private Button addPersonButton;
+    @FXML
+    private Button removePersonButton;
+    @FXML
+    private TextField minutesInput;
+    @FXML
+    private Button startButton;
+    @FXML
+    private Button stopButton;
+    @FXML
+    private Button resetButton;
 
     private TextFormatter<Integer> minutesInputFormatter = new TextFormatter<>(new IntegerStringConverter());
 
@@ -57,7 +64,15 @@ public class MainWindowController implements Initializable {
         this.turnEventListener = turnEventListener;
     }
 
-    public void addPersonActionHandler(ActionEvent event) {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        nameList.setItems(groupList.getGroupNames());
+        minutesInput.setTextFormatter(minutesInputFormatter);
+        stopButton.setDisable(true);
+    }
+
+    @FXML
+    private void addPersonActionHandler(ActionEvent event) {
 
         String newName = nameInput.getText();
         if (StringUtils.isNotEmpty(newName)) {
@@ -67,7 +82,8 @@ public class MainWindowController implements Initializable {
         }
     }
 
-    public void removePersonActionHandler(ActionEvent event) {
+    @FXML
+    private void removePersonActionHandler(ActionEvent event) {
 
         String selectedName = nameList.getFocusModel().getFocusedItem();
         if (StringUtils.isNotEmpty(selectedName)) {
@@ -75,7 +91,8 @@ public class MainWindowController implements Initializable {
         }
     }
 
-    public void startActionHandler(ActionEvent event) {
+    @FXML
+    private void startActionHandler(ActionEvent event) {
 
         long turnLengthInMs = getTurnLengthInMs();
         if (turnLengthInMs > 0 && !groupList.isEmpty()) {
@@ -86,14 +103,16 @@ public class MainWindowController implements Initializable {
         }
     }
 
-    public void stopActionHandler(ActionEvent event) {
+    @FXML
+    private void stopActionHandler(ActionEvent event) {
 
         turnEventListener.stopTurns();
 
         enableConfigurationComponents();
     }
 
-    public void resetActionHandler(ActionEvent event) {
+    @FXML
+    private void resetActionHandler(ActionEvent event) {
 
         turnEventListener.stopTurns();
 
@@ -101,19 +120,14 @@ public class MainWindowController implements Initializable {
         enableConfigurationComponents();
     }
 
-    public void closeActionHandler(ActionEvent event) {
+    @FXML
+    private void closeActionHandler(ActionEvent event) {
         Platform.exit();
     }
 
-    public void aboutActionHandler(ActionEvent event) {
+    @FXML
+    private void aboutActionHandler(ActionEvent event) {
         aboutWindowStage.show();
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        nameList.setItems(groupList.getGroupNames());
-        minutesInput.setTextFormatter(minutesInputFormatter);
-        stopButton.setDisable(true);
     }
 
     private void enableConfigurationComponents() {
