@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+
 @Component
 public class GroupList {
 
@@ -15,10 +17,14 @@ public class GroupList {
         return groupNames;
     }
 
-    public void addPerson(String name) {
+    public void addNewPerson(String name) {
         if (!groupNames.contains(name)) {
             groupNames.add(name);
         }
+    }
+
+    public void addAllPersons(Collection<String> names) {
+        groupNames.addAll(names);
     }
 
     public void removePerson(String name) {
