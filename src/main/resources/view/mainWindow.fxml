@@ -70,7 +70,7 @@
                </rowConstraints>
                <children>
                   <Label text="New Person: " />
-                  <TextField fx:id="nameInput" GridPane.columnIndex="1" />
+                  <TextField fx:id="nameInput" onKeyReleased="#nameInputKeyReleasedActionHandler" GridPane.columnIndex="1" />
                   <Button fx:id="addPersonButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addPersonActionHandler" text="Add Person" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" />
                   <Label text="Current Group:" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                   <ListView fx:id="nameList" prefHeight="220.0" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />

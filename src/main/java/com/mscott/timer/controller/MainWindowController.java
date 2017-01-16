@@ -9,6 +9,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -83,9 +85,17 @@ public class MainWindowController implements Initializable {
     }
 
     @FXML
+    private void nameInputKeyReleasedActionHandler(KeyEvent event) {
+
+        if (KeyCode.ENTER.equals(event.getCode())) {
+            addPersonActionHandler(null);
+        }
+    }
+
+    @FXML
     private void addPersonActionHandler(ActionEvent event) {
 
-        String newName = nameInput.getText();
+        String newName = StringUtils.strip(nameInput.getText());
         if (StringUtils.isNotBlank(newName)) {
             groupList.addNewPerson(newName);
             nameInput.clear();
