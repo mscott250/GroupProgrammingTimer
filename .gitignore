@@ -2,3 +2,5 @@
 target
 dependency-reduced-pom.xml
 *.iml
+release.properties
+pom.xml.releaseBackup
