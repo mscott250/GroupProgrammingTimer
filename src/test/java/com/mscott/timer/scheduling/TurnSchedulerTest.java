@@ -1,7 +1,7 @@
 package com.mscott.timer.scheduling;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 // TODO: try and remove these sleeps
@@ -10,7 +10,7 @@ public class TurnSchedulerTest {
 
     private TurnScheduler turnScheduler;
 
-    @Before
+    @BeforeEach
     public void setup() {
         this.turnScheduler = new TurnScheduler();
     }

@@ -2,17 +2,16 @@ package com.mscott.timer.group;
 
 import javafx.collections.ObservableList;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 public class GroupListTest {
 
     private GroupList groupList;
 
-    @Before
+    @BeforeEach
     public void setup() {
         this.groupList = new GroupList();
     }
