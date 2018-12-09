@@ -4,13 +4,13 @@
 
     <groupId>com.mscott</groupId>
     <artifactId>GroupProgrammingTimer</artifactId>
-    <version>1.3</version>
+    <version>1.4-SNAPSHOT</version>
 
     <scm>
         <url>git@github.com:mscott250/GroupProgrammingTimer.git</url>
         <connection>scm:git:git@github.com:mscott250/GroupProgrammingTimer.git</connection>
         <developerConnection>scm:git:git@github.com:mscott250/GroupProgrammingTimer.git</developerConnection>
-        <tag>v1.3</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
