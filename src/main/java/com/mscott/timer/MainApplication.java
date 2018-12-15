@@ -1,5 +1,6 @@
 package com.mscott.timer;
 
+import com.mscott.timer.scheduling.TurnScheduler;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -24,6 +25,11 @@ public class MainApplication extends Application {
 
     @Override
     public void stop() throws Exception {
+        // stop the turn scheduler to ensure any child threads started by the timer are terminated before exiting,
+        // if this isn't done then the application window closes but the process continues running until its killed
+        TurnScheduler turnScheduler = context.getBean(TurnScheduler.class);
+        turnScheduler.stopTurn();
+
         context.close();
     }
 
